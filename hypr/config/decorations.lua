@@ -9,7 +9,7 @@ hl.config({
         resize_on_border = true,
         col = {
             active_border = {
-                colors = { TRAVELER_GOLD, EARTHBOUND_UMBER },
+                colors = { "rgba(d9b96eff)", "rgba(755640ff)" },
                 angle = 45,
             },
             inactive_border = MUTED_BRONZE,
