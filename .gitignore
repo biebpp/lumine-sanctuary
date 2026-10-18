@@ -1,0 +1,20 @@
+# Local backups
+*.backup-*
+*.before-*
+*.bak
+*.old
+
+# Secrets and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+secrets.*
+
+# Local machine files
+.DS_Store
+Thumbs.db
