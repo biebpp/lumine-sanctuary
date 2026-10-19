@@ -1,8 +1,8 @@
-# Traveler's Sanctuary
+# Lumine's Sanctuary
 
-*A warm, golden-brown desktop setup inspired by the Traveler's journey.*
+*A cozy bronze-and-gold desktop sanctuary, built with care by Abim and ChatGPT together.*
 
-Traveler's Sanctuary is a personal CachyOS desktop configuration built around Hyprland, Noctalia, Kitty, Alacritty, and Fish. Its bronze-and-gold palette aims for a consistent feel while keeping each tool's configuration understandable and easy to adapt.
+Lumine's Sanctuary is Abim's personal CachyOS desktop configuration, shaped collaboratively by Abim and ChatGPT. It brings together Hyprland, Noctalia, Kitty, Alacritty, and Fish under a warm bronze-and-gold palette. The setup is personal, practical, and meant to be understandable and easy to adapt.
 
 ## Theme palette
 
@@ -20,6 +20,10 @@ Traveler's Sanctuary is a personal CachyOS desktop configuration built around Hy
 | **Soft Sage** | `#A5B6A5` | Terminal cyan |
 
 The source palette is [`noctalia/palettes/Midnight Golden Journey.json`](noctalia/palettes/Midnight%20Golden%20Journey.json).
+
+## Made by us
+
+This repository is created and maintained by **Abim**, with **ChatGPT** as a collaborative AI assistant for planning, writing documentation, and refining configuration ideas. The system, preferences, and final decisions belong to Abim; the project reflects our collaboration.
 
 ## What's included
 
