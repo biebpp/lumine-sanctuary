@@ -2,18 +2,46 @@
 ui_scale = 1.20
 
 [bar.default]
-center = [ "workspaces", "spacer_1", "active_window" ]
+center = [ "group:g2" ]
 concave_edge_corners = true
-end = [ "media", "spacer_1", "tray", "notifications", "network", "volume", "session" ]
+end = [ "media", "group:g3" ]
 margin_edge = 0
 margin_ends = 0
 radius_bottom_left = 12
 radius_bottom_right = 12
 radius_top_left = 0
 radius_top_right = 0
-scale = 0.95
-start = [ "clock", "sysmon_ram_pct", "sysmon_3" ]
+scale = 0.90
+start = [ "clock", "ram_2" ]
 thickness = 30
+
+[[bar.default.capsule_group]]
+accordion = false
+accordion_direction = "end"
+border = "on_secondary"
+border_width = 0.0
+enabled = true
+fill = "tertiary"
+foreground = "on_surface"
+id = "g2"
+members = [ "active_window", "workspaces" ]
+opacity = 0.5
+padding = 8.0
+radius = 8.0
+
+[[bar.default.capsule_group]]
+accordion = false
+accordion_direction = "end"
+border = "on_secondary"
+border_width = 0.0
+enabled = true
+fill = "tertiary"
+foreground = "on_surface"
+id = "g3"
+members = [ "network", "volume", "battery" ]
+opacity = 0.5
+padding = 8.0
+radius = 8.0
 
 [shell]
 clipboard_image_action_command = "swash --stdin --name \"swash-$(date +'%Y-%m-%d_%H:%M:%S').png\""
@@ -113,19 +141,6 @@ show_value = false
 stat = "gpu_temp"
 type = "sysmon"
 
-[widget.sysmon_ram_pct]
-type = "sysmon"
-stat = "ram_pct"
-glyph = "memory"
-custom_label = "RAM"
-show_value = true
-
-[widget.sysmon_3]
-show_glyph = false
-show_value = true
-stat = "ram_used"
-type = "sysmon"
-
 [widget.tray]
 capsule = true
 capsule_fill = "on_secondary"
@@ -149,3 +164,10 @@ width = 350
 
 [osd]
 scale = 0.70
+
+[widget.ram_2]
+amount_first = false
+type = "pulser/hover-widgets:ram"
+
+[plugins]
+enabled = [ "noctalia/mpvpaper", "pulser/hover-widgets" ]
