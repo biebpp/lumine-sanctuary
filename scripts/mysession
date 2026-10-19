@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+set -u
+
+SESSION_DIR="$HOME/.local/share/hyprflow/sessions"
+TIMER="hyprflow-autosave.timer"
+SERVICE="hyprflow-autosave.service"
+
+show_status() {
+    echo "Hyprflow session status"
+    echo "-----------------------"
+
+    local latest_file=""
+    if [[ -d "$SESSION_DIR" ]]; then
+        latest_file=$(find "$SESSION_DIR" -maxdepth 1 -type f \
+            -name '*.json' -printf '%T@ %p\n' 2>/dev/null |
+            sort -nr | head -n 1 || true)
+    fi
+
+    if [[ -n "$latest_file" ]]; then
+        local latest_ts="${latest_file%% *}"
+        local latest_path="${latest_file#* }"
+
+        printf 'Latest saved session: %s\n' \
+            "$(date -d "@$latest_ts" '+%Y-%m-%d %H:%M:%S %Z')"
+        printf 'File: %s\n' "$latest_path"
+    else
+        echo "No saved session files found."
+    fi
+
+    echo
+    echo "Autosave schedule:"
+    systemctl --user list-timers --all --no-pager "$TIMER" || true
+
+    echo
+    printf 'Last service result: '
+    systemctl --user show "$SERVICE" -p Result --value 2>/dev/null ||
+        echo "unavailable"
+}
+
+case "${1:-}" in
+    save)
+        /usr/bin/hyprflow save --force
+        status=$?
+
+        if (( status == 0 )); then
+            /usr/bin/notify-send \
+                --app-name="MySession" \
+                --urgency=low \
+                "Session saved" \
+                "Your session was saved successfully."
+        fi
+
+        exit "$status"
+        ;;
+    status)
+        show_status
+        ;;
+    help|-h|--help)
+        echo "Usage: mysession <command>"
+        echo "  save    Force-save the current session"
+        echo "  status  Show latest save and autosave schedule"
+        echo "  help    Show this help"
+        ;;
+    "")
+        echo "Usage: mysession <save|status|help>"
+        ;;
+    *)
+        echo "Unknown command: $1"
+        echo "Run 'mysession help' for usage."
+        exit 2
+        ;;
+esac
