@@ -2,7 +2,7 @@
 
 *A warm, golden-brown desktop setup inspired by the Traveler's journey.*
 
-Traveler's Sanctuary is a personal CachyOS desktop configuration built around Hyprland, Noctalia, and a cozy bronze-and-gold palette. The goal is a consistent look without hiding the individual tools or making the setup difficult to understand.
+Traveler's Sanctuary is a personal CachyOS desktop configuration built around Hyprland, Noctalia, Kitty, Alacritty, and Fish. Its bronze-and-gold palette aims for a consistent feel while keeping each tool's configuration understandable and easy to adapt.
 
 ## Theme palette
 
@@ -19,34 +19,55 @@ Traveler's Sanctuary is a personal CachyOS desktop configuration built around Hy
 | **Warm Mauve** | `#B99A78` | Secondary accent |
 | **Soft Sage** | `#A5B6A5` | Terminal cyan |
 
-The palette source is [`noctalia/palettes/Midnight Golden Journey.json`](noctalia/palettes/Midnight%20Golden%20Journey.json).
+The source palette is [`noctalia/palettes/Midnight Golden Journey.json`](noctalia/palettes/Midnight%20Golden%20Journey.json).
 
-## Repository layout
+## What's included
 
 - `hypr/` — Hyprland configuration split into focused Lua modules.
-- `kitty/` — Kitty configuration and Noctalia theme import.
-- `noctalia/palettes/` — the custom Midnight Golden Journey palette.
-- `fish/` — the current Fish startup configuration.
+- `noctalia/palettes/` — the Midnight Golden Journey palette.
+- `kitty/` — Kitty settings and a theme file.
+- `alacritty/alacritty.toml` — Alacritty settings as used on the original machine.
+- `fish/config.fish` — Fish startup config, preserving CachyOS defaults and the `cls` alias.
+- `scripts/mysession` — helper commands for saving and checking Hyprflow sessions.
 
 ## Fish shell
 
-The tracked Fish config sources CachyOS's supplied defaults, then keeps the small personal `cls` alias:
+The Fish config intentionally stays small:
 
 ```fish
 source /usr/share/cachyos-fish-config/cachyos-config.fish
 alias cls="clear"
 ```
 
-The CachyOS configuration provides the existing greeting and prompt integration. The custom Pure prompt preferences are managed separately as Fish universal variables on the original machine, so they are not silently rewritten by this file.
+CachyOS supplies the existing greeting and prompt integration. Pure's universal-variable preferences are stored in Fish's universal variable database on the original machine; they are not automatically reproduced by this config file.
 
-## Notes before using these dotfiles
+## MySession
 
-These are personal configuration files, not a one-command installer. Review each file and adapt machine-specific paths, monitor settings, keybindings, programs, and dependencies before applying it to another system.
+`scripts/mysession` is a Bash helper with three commands:
 
-Noctalia can generate terminal theme files from its active palette. When changing terminal colors, check the generated theme imports as well as any colors defined directly in a terminal config, so two sources do not fight each other.
+- `mysession save` — runs `hyprflow save --force` and sends a desktop notification when the save succeeds.
+- `mysession status` — shows the newest JSON session file, the autosave timer, and the last service result.
+- `mysession help` — prints usage.
 
-## Safety
+It expects Hyprflow at `/usr/bin/hyprflow`, `notify-send`, and a user systemd unit named `hyprflow-autosave.timer` with service `hyprflow-autosave.service` for the status report. The unit files are not included here yet.
 
-- Never commit passwords, access tokens, private keys, or other credentials.
-- Review files for machine-specific details before publishing or reusing them.
-- Keep local backups before replacing working configuration files.
+To try it from a local checkout, review the script and install it into your personal bin directory:
+
+```sh
+mkdir -p ~/.local/bin
+install -Dm755 scripts/mysession ~/.local/bin/mysession
+```
+
+Make sure `~/.local/bin` is on your `PATH`. This repository does not install or enable systemd units automatically.
+
+## Terminal theme notes
+
+Kitty includes `themes/noctalia.conf`. Alacritty imports `~/.config/alacritty/themes/noctalia.toml`, but its current config also declares Nord colors directly. Review how your Alacritty version handles imported values before changing either source; the tracked config preserves the original settings rather than silently rewriting them.
+
+Noctalia may generate terminal theme files from the active palette. Keep generated imports and directly declared colors in mind when troubleshooting theme mismatches.
+
+## Before reusing
+
+These are personal configuration files, not a universal installer. Review monitor settings, keybindings, program paths, dependencies, and other machine-specific choices before applying them to another system.
+
+Never commit passwords, access tokens, private keys, or other credentials. Keep local backups before replacing working configuration files.
